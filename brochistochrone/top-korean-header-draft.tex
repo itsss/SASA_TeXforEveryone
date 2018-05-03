@@ -1,0 +1,18 @@
+\documentclass[10.5pt,itemph,amsmath,  adjustmath,chapter,nanum, draft]{oblivoir}
+
+\usepackage[dbl4x6]{fapapersize}
+\usepackage{libertineRoman}
+
+\ifPDFTeX
+	\usepackage{graphicx}
+	\IfFileExists{dhucs-midkor.sty}{\usepackage{dhucs-midkor}}{}
+\else
+	\setmainfont[Ligatures=TeX]{TeX Gyre Termes}
+	\setmainhangulfont[ItalicFont={*},ItalicFeatures={FakeSlant={.167}},Ligatures=TeX]{NanumMyeongjo}
+	\setmainhanjafont{HCR Batang LVT}
+	\setsanshangulfont[Ligatures=TeX]{NanumGothic}
+\fi
+
+\usepackage{tabulary}
+\ifx\tymax\undefined\newlength{\tymax}\fi
+

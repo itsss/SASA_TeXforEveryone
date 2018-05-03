@@ -1,0 +1,77 @@
+\documentclass[10.5pt,itemph,amsmath,  adjustmath,nanum]{oblivoir}
+
+\usepackage[dbl4x6]{fapapersize}
+\usepackage{libertineRoman}
+
+\def\mytitle{Document}
+\def\mydate{2018 MAY 03} 
+\def\myauthor{Taewon Kang}
+
+\usepackage{tabulary}
+\ifx\tymax\undefined\newlength{\tymax}\fi
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{esvect}
+
+
+%%%% 호길이 표시
+\usepackage{yhmath}
+\newcommand{\Arc}[1]{\wideparen{#1}}
+%%%% Short chord
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\set}[1]{\lbrace #1 \rbrace }
+\newcommand{\term}[1]{\index{#1}{\sffamily #1}}
+\newcommand{\eterm}[1]{\index{#1}{\emph{#1}}}
+\newcommand{\powerset}{\raisebox{.15\baselineskip}{\Large\ensuremath{\wp}}}
+
+
+\input{topologynote-begin-doc} %기존의 korean begin과 동일하지만 끝부분의 정리류 삽입등을 조절하기 위해 편집한 것
+
+%\usepackage{tikz}
+%\usetikzlibrary{matrix,arrows,shapes}
+
+
+\input{top-thm-frame-en}
+
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri}
+
+
+\usepackage{mathrsfs}
+\usepackage[mathscr]{euscript}
+%\usepackage{kswrapfig}
+
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}%그림번호가 섹션에 맞춰 나오게
+\renewcommand{\thetable}{\arabic{section}.\arabic{table}}
+\counterwithin{figure}{section}%섹션이 바뀔 때마다 번호가 리셋되게.
+
+%캡션스타일 변경
+\usepackage{xtab}
+\captionnamefont{\sffamily} %'표'라는 글자를 찍을 폰트 모양
+\captiontitlefont{\sffamily} %캡션의 타이틀을 찍을 폰트 모양
+\captiondelim{\ \ } % 캡션 내용 다음에 구분 기호
+\renewcommand\tablename{표}
+
+\usepackage{caption}
+\captionsetup[figure]{%
+labelsep=period,
+name={\sffamily 그림},
+}
+
+%\everydisplay\expandafter{\the\everydisplay\def\baselinestretch{1.2}\selectfont} %수식끼리의 행 간격을 약간 좁게
+
+\begin{document}
+
+\pagestyle{\mypagestyle}
+\chapterstyle{KNUchapter}
+
+\maketitle
+
+\input{maintext}
+
+
+
+\end{document}

@@ -1,0 +1,252 @@
+
+\usepackage{kotex-logo}
+\usepackage{tabu}
+\usepackage{amsthm}
+\RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{fancyvrb}			% Allow \verbatim et al. in footnotes
+%\usepackage{booktabs}			% Better tables
+\usepackage{tabulary}			% Support longer table cells
+
+%\usepackage{layouts}[2001/04/29]
+%\makeglossary
+\makeindex
+
+\def\revision{}
+
+%%% need more space for ToC page numbers
+\setpnumwidth{2.55em}
+\setrmarg{3.55em}
+
+%%% need more space for LoF numbers
+\cftsetindents{figure}{0em}{3.0em}
+
+%%% and do the same for the LoT
+\cftsetindents{table}{0em}{3.0em}
+
+%% 색깔 설정
+
+% Pantone Fashion Color: Spring 2014
+\definecolor{PlacidBlue}{cmyk}{.47,.17,.02,.0}
+\definecolor{VioletTulip}{cmyk}{.44,.39,.0,.0}
+\definecolor{Hemlock}{cmyk}{.39,.04,.35,.0}
+\definecolor{Paloma}{cmyk}{.35,.24,.27,.0}
+\definecolor{Sand}{cmyk}{.20,.27,.48,.0}
+\definecolor{Freesia}{cmyk}{.0,.14,.100,.0}
+\definecolor{Cayenne}{cmyk}{.06,.74,.56,.0}
+\definecolor{CelosiaOrange}{cmyk}{.0,.63,.80,.0}
+\definecolor{RadiantOrchid}{cmyk}{.32,.65,.0,.0}
+\definecolor{DazzlingBlue}{cmyk}{.92,.57,.0,.0}
+\definecolor{PurpleHaze}{cmyk}{.56,.51,.15,.0}
+\definecolor{Comfrey}{cmyk}{.74,.28,.63,.10}
+\definecolor{MagentaPurple}{cmyk}{.51,.94,.24,.24}
+
+\colorlet{MainColorOne}{Comfrey}
+\colorlet{MainColorTwo}{PurpleHaze}
+
+\RequirePackage{tikz}
+\RequirePackage{tikzpagenodes}
+\RequirePackage{calc}
+
+
+% 장제목 스타일
+\makechapterstyle{KNUchapter}{%
+   \setlength{\afterchapskip}{40pt}
+  \renewcommand*{\chapterheadstart}{\vspace*{-3\onelineskip}}
+  \renewcommand*{\afterchapternum}{\par\nobreak\vskip 25pt}
+   \renewcommand*{\chapnamefont}{\normalfont\LARGE\flushright}
+   \renewcommand*{\chapnumfont}{\normalfont\HUGE\color{MainColorOne}}
+   \renewcommand*{\chaptitlefont}{\color{MainColorOne}\sffamily\HUGE\bfseries\flushright}%\flushright}
+%   \renewcommand*{\printchaptername}{%
+%     \chapnamefont\MakeUppercase{\@chapapp}}
+  \renewcommand*{\prechapternum}{\chapnamefont\MakeUppercase{Chapter}}
+  \renewcommand*{\postchapternum}{%
+			 \makebox[0pt][l]{%
+	        \hspace{1em}{\color{MainColorOne!50}\rule{\midchapskip+\spinemargin}{\beforechapskip}}
+			}}
+   \renewcommand*{\chapternamenum}{}
+  \setlength{\beforechapskip}{18mm}%  \numberheight
+  \setlength{\midchapskip}{\paperwidth}% \barlength
+  \addtolength{\midchapskip}{-\textwidth}
+  \addtolength{\midchapskip}{-\spinemargin}
+   \renewcommand*{\printchapternum}{%
+       \hspace{1em}\resizebox{!}{\beforechapskip}{\chapnumfont \thechapter}}
+  % \renewcommand*{\printchapternum}{%
+     % \makebox[0pt][c]{%
+       % \hspace{.8em}%
+       % \resizebox{!}{\beforechapskip}{\chapnumfont \thechapter}%
+       % \hspace{.8em}%
+       % % \rule{\midchapskip+\spinemargin}{\beforechapskip}%
+     % }
+   % }%
+   \makeoddfoot{plain}{}{}{\normalfont\normalsize\sffamily\thepage}
+   }
+
+
+% 섹션/ 서브섹션 바꾸기
+\setsechook{%
+\setsecnumformat{\thesection\quad}
+\setsecheadstyle{\sffamily\bfseries\Large\color{MainColorOne}}
+\setsubsecheadstyle{\sffamily\bfseries\color{MainColorTwo}}
+\hangsecnum}
+
+
+\VerbatimFootnotes
+
+%
+% Title Information
+%
+
+\ifx\latexauthor\undefined
+\else
+	\def\myauthor{\latexauthor}
+\fi
+
+\ifx\subtitle\undefined
+\else
+	\addtodef{\mytitle}{}{ \\ {\normalsize\subtitle}}
+\fi
+
+\ifx\affiliation\undefined
+\else
+	\addtodef{\myauthor}{}{ \\ \affiliation}
+\fi
+
+\ifx\address\undefined
+\else
+	\addtodef{\myauthor}{}{ \\ \address}
+\fi
+
+\ifx\phone\undefined
+\else
+	\addtodef{\myauthor}{}{ \\ \phone}
+\fi
+
+\ifx\email\undefined
+\else
+	\addtodef{\myauthor}{}{ \\ \email}
+\fi
+
+\ifx\web\undefined
+	\else
+		\addtodef{\myauthor}{}{ \\ \web}
+\fi
+
+\title{\mytitle}
+\ifx\myauthor\undefined
+	\author{Author}
+\else
+	\author{\myauthor}
+\fi
+
+\ifx\citep\undefined
+\let\citep=\cite
+\let\citet=\cite
+\fi
+
+%\date{\today}
+\ifx\mydate\undefined
+ \date{\today}
+\else
+ \date{\mydate}
+\fi
+
+%% 조금 더 멋을 부리자. KNUworkshop
+
+% \copypagestyle{KNUworkshop}{companion}
+\makepagestyle{KNUworkshop}
+
+\makeheadrule{KNUworkshop}{0pt}{0pt}
+
+% 쪽 번호 자릿수. 세 자리 숫자가 들어갈 폭을 가지도록 함. 
+\newlength\pagenumwidth
+\settowidth{\pagenumwidth}{999}
+
+%% 쪽 번호 들어가는 상자
+\tikzset{pagefooter/.style={
+anchor=base,font=\sffamily\bfseries\small,
+text=white,fill=MainColorOne!60,text centered,
+text depth=20mm,text width=\pagenumwidth}}
+
+\makeoddhead{KNUworkshop}{}{}{%
+\sffamily\footnotesize%
+\begin{tikzpicture}[xshift=-.75\baselineskip,yshift=.25\baselineskip,overlay,fill=MainColorOne!50,draw=MainColorOne!50]
+\fill circle(3pt);
+\draw[semithick](0,0) -- (-\textwidth-2\spinemargin,0);
+\end{tikzpicture} \rightmark}
+
+\makeevenhead{KNUworkshop}{%
+\sffamily\footnotesize\leftmark\,\, 
+\begin{tikzpicture}[xshift=.5\baselineskip,yshift=.25\baselineskip,overlay,fill=MainColorOne!50,draw=MainColorOne!50]\fill (0,0) circle (3pt); \draw[semithick](\textwidth+2\spinemargin,0) -- (0,0);\end{tikzpicture}}{}{}
+
+\makeoddfoot{KNUworkshop}{}{}{\tikz[baseline]\node[pagefooter]{\thepage};}
+
+\makeevenfoot{KNUworkshop}{\tikz[baseline]\node[pagefooter]{\thepage};}{}{}
+
+\copypagestyle{chapter}{KNUworkshop}
+\makeoddhead{chapter}{}{}{}
+\makeevenhead{chapter}{}{}{}
+\makeatletter
+\def\@hgpsmarks{%
+      \let\@mkboth\markboth
+      \def\chaptermark##1{%
+        \markboth{%
+          \ifnum \c@secnumdepth >\m@ne
+            \if@mainmatter
+              \hchaptertitlehead\enskip%\ %
+            \fi
+          \fi
+          ##1}{}}%
+      \def\tocmark{\markboth{\contentsname}{\contentsname}}%
+      \def\lofmark{\markboth{\listfigurename}{\listfigurename}}%
+      \def\lotmark{\markboth{\listtablename}{\listtablename}}%
+      \def\bibmark{\markboth{\bibname}{\bibname}}%
+      \def\indexmark{\markboth{\indexname}{\indexname}}%
+      \def\sectionmark##1{%
+        \markright{%
+%% disabled printing \thesection.
+%          \ifnum \c@secnumdepth >\z@
+%          \fi
+% enabled printing \thesection.
+          \ifnum \c@secnumdepth >\z@
+            \thesection \enskip\ %
+          \fi
+          ##1}}%
+    }
+\makepsmarks{KNUworkshop}{\@hgpsmarks}
+\makeatother
+
+\def\mypagestyle{KNUworkshop}
+
+%%% index
+\newcommand\wi[2][\empty]{%
+	\ifx\empty#1
+		#2\index{#2}%
+	\else
+		#2\index{#1!#2}%
+	\fi
+}
+
+%%% theorems
+%\input{myprogress-thm}
+
+%\input{myproblem}
+
+%\newcommand\autotag{%
+%	\refstepcounter{equation}%
+%	\ensuremath{\tag{\theequation}}
+%}
+
+
+%\begin{document}
+
+%\firmlists
+
+%\pagestyle{\mypagestyle}
+%\chapterstyle{KNUchapter}
+
+%\maketitle
+
+%\clearpage
+
+%\tableofcontents*
+

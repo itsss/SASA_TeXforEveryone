@@ -1,0 +1,102 @@
+%선택지 문항옵션으로 블로그 `책읽기의 낙원'에서 얻은 방법
+%선택지 문항 옵션
+\usepackage{xparse}
+\usepackage{kocircnum}
+\usepackage{tabto}
+\usepackage{environ}
+
+\NewEnviron{myoptions}{\TreatOptions{\BODY}}
+
+\newdimen\TabLen \TabLen=3cm
+\TabPositions{0cm,\TabLen,2\TabLen}
+
+\ExplSyntaxOn
+
+\dim_new:N \l_check_op_len_dim
+\dim_zero_new:N \g_op_len_dim
+\int_new:N \op_choice_int
+
+\cs_new:Npn \check_op_len:n #1
+{
+    \hbox_set:Nn \l_tmpa_box { #1 }
+    \dim_set:Nn \l_check_op_len_dim { \box_wd:N \l_tmpa_box }
+    \dim_compare:nT { \l_check_op_len_dim > \g_op_len_dim }
+    {
+        \dim_gset_eq:NN \g_op_len_dim \l_check_op_len_dim
+    }
+}
+
+\cs_new:Npn \disp_op_choices:n #1
+{
+   \int_incr:N \op_choice_int
+   \head_of_item
+   {
+       \hcrcircnum { \int_use:N \op_choice_int }
+       \space\space
+    }
+    #1 \tab_here:
+}
+
+\NewDocumentCommand \TreatOptions { m }
+{
+    \clist_set:No \op_args_clist { #1 }
+    \clist_map_function:NN \op_args_clist \check_op_len:n
+    \dim_compare:nTF 
+    { \g_op_len_dim > \dim_eval:n {\TabLen-10pt-4pt} }
+    {
+        \tl_set_eq:NN \head_of_item \hangfrom
+        \cs_set:Nn \tab_here: {\par\noindent}
+    }
+    {
+        \tl_clear:N \head_of_item
+        \cs_set:Nn \tab_here: {\tab}
+    }
+    \par\smallskip\noindent
+    \int_zero:N \op_choice_int
+    \clist_map_function:NN \op_args_clist \disp_op_choices:n
+}
+
+\ExplSyntaxOff
+
+
+%%연습문제환경을 만듦 
+
+\usepackage{jiwonlipsum}
+\usepackage{kswrapfig}
+
+\newskip\mybestskip
+\mybestskip=1\onelineskip plus \baselineskip minus .5\baselineskip %문제들 사이의 간견을 조금 좁게 만들고자, \mybestskip=4 에서 4를 1로 바꿈.
+
+\newcounter{MCnum}
+\newenvironment{myProb}%
+{%
+	\refstepcounter{MCnum}%
+%	\noindent\llap{\mbox{{\Large\bfseries\arabic{section}}-{\sffamily\theMCnum}}\space}% 이게 원본 세팅이었으나 섹션넘버를 쓰지 않는 경우가 많을 것 같아서 주석처리하고 아래처럼 바꾸었다.
+		\noindent\llap{\mbox{\Large{\theMCnum}.}\space}
+	\ignorespaces
+}%
+{%
+	\par
+	\vskip\mybestskip
+}
+ %%%%%%%% 여기는 특별 문제의 번호 왼쪽 옆에 *를 붙이도록 하려는 시도이다.
+\newenvironment{myProb*}%
+{%
+	\refstepcounter{MCnum}%
+%	\noindent\llap{\mbox{{\Large\bfseries\arabic{section}}-{\sffamily\theMCnum}}\space}% 이게 원본 세팅이었으나 섹션넘버를 쓰지 않는 경우가 많을 것 같아서 주석처리하고 아래처럼 바꾸었다.
+		\noindent\llap{\mbox{\Large{\(^{*}\)\theMCnum}.}\space}
+	\ignorespaces
+}%
+{%
+	\par
+	\vskip\mybestskip
+}
+
+
+
+
+%%%%%%%%%여기까지가 새로운 시도였다.
+
+%% to fix the bug(?) of counters in kswrapfig (or picins?)
+\usepackage{etoolbox}
+\pretocmd{\kswrapfig}{\addtocounter{MCnum}{-1}}{}{}

@@ -1,0 +1,228 @@
+%%정리류 환경들로 KTUG의 progress님이 만든 내용들
+%%% theorems
+
+%%% written by progress
+%%% 
+%% 색깔 설정
+% Pantone Fashion Color: Spring 2014
+\definecolor{PlacidBlue}{cmyk}{.47,.17,.02,.0}
+\definecolor{VioletTulip}{cmyk}{.44,.39,.0,.0}
+\definecolor{Hemlock}{cmyk}{.39,.04,.35,.0}
+\definecolor{Paloma}{cmyk}{.35,.24,.27,.0}
+\definecolor{Sand}{cmyk}{.20,.27,.48,.0}
+\definecolor{Freesia}{cmyk}{.0,.14,.100,.0}
+\definecolor{Cayenne}{cmyk}{.06,.74,.56,.0}
+\definecolor{CelosiaOrange}{cmyk}{.0,.63,.80,.0}
+\definecolor{RadiantOrchid}{cmyk}{.32,.65,.0,.0}
+\definecolor{DazzlingBlue}{cmyk}{.92,.57,.0,.0}
+\definecolor{PurpleHaze}{cmyk}{.56,.51,.15,.0}
+\definecolor{Comfrey}{cmyk}{.74,.28,.63,.10}
+\definecolor{MagentaPurple}{cmyk}{.51,.94,.24,.24}
+
+\colorlet{MainColorOne}{Comfrey}
+\colorlet{MainColorTwo}{PurpleHaze}
+
+%\DeclareRobustCommand{\myem}[2][\empty]{%
+%\ifx#1\empty
+%#2\index{#2}%
+%\else
+%#2\index{#2}(#1)\index{#1}%
+%\fi}
+
+\makeatletter
+% \newtheorem{thm}{정리}[chapter]
+% \newtheorem{cor}[thm]{보조정리}
+% \renewcommand{\proofname}{증명}
+
+\renewcommand\thesection{\arabic{section}}
+
+\newcounter{thm} % 새 카운터를 만들고
+\setcounter{thm}{0} % 0으로 초기화
+
+\counterwithin{thm}{section}
+
+
+\newenvironment{thm}[1][\empty]{% 옵션 변수 하나를 받을 예정
+\refstepcounter{thm} % 이게 있어야 번호가 순차적으로 늘어나며 \label과 \ref 가능
+\begin{framed}
+\ifx#1\empty
+\noindent{\bfseries\sffamily정리 \thethm}\quad
+\else
+\noindent{\bfseries\sffamily정리 \thethm\enskip ({\small#1})}\quad % 정리 [ ] 안에 있는 부가 설명을 괄호 ( ) 안에 표시
+\fi
+}{
+\end{framed}
+}
+
+\colorlet{shadecolor}{MainColorOne!20}
+\newenvironment{cor}[1][\empty]{%
+   \refstepcounter{thm} % 앞에서 선언했으니깐 이것 필요 없어
+    \begin{framed}
+    \ifx\empty#1
+    \noindent{\bfseries\sffamily 따름정리 \thethm}\quad % 정리의 카운터를 이어서 사용
+    \else
+    \noindent{\bfseries\sffamily 따름정리 \thethm\enskip ({\small#1})}\quad 
+    \fi
+}{%
+    \end{framed}
+}
+
+\newenvironment{Lem}[1][\empty]{%
+   \refstepcounter{thm} % 앞에서 선언했으니깐 이것 필요 없어
+    \begin{framed}
+    \ifx\empty#1
+    \noindent{\bfseries\sffamily 보조정리 \thethm}\quad % 정리의 카운터를 이어서 사용
+    \else
+    \noindent{\bfseries\sffamily 보조정리 \thethm\enskip ({\small#1})}\quad 
+    \fi
+}{%
+   \end{framed}
+}
+
+
+\renewcommand{\proofname}{\color{MainColorOne}{\bfseries\sffamily 증명}}
+\renewcommand\qedsymbol{\color{MainColorOne!50}■} % QED 마크 변경
+
+\renewenvironment{proof}[1][\empty]{%
+\par%
+  \pushQED{\qed} % \qedhere 쓰기 위한 장치 ①. from amsthm.sty
+\begin{description}
+\ifx#1\empty
+\item[\bfseries\sffamily\color{MainColorOne}증명]
+\else
+\item[\bfseries\sffamily\color{MainColorOne}증명({\small#1})] \quad
+\fi
+}{\popQED  % \qedhere 쓰기 위한 장치 ②
+\end{description}%
+\@endpefalse%
+\par%
+}
+
+%풀이 환경을 만드려는 시도
+\renewcommand{\proofname}{\color{MainColorOne}{\bfseries\sffamily Solution}}
+\newcommand{\qedwhite}{\hfill  \ensuremath{\Box}} % QED 마크 변경
+
+\newenvironment{sol}[1][\empty]{%
+\par%
+  \pushQED{\qedwhite} % \qedhere 쓰기 위한 장치 ①. from amsthm.sty
+\begin{description}
+\ifx#1\empty
+\item[\bfseries Solution]
+\else
+\item[\bfseries Solution({\small#1})] \quad
+\fi
+}{\popQED  % \qedhere 쓰기 위한 장치 ②
+\end{description}%
+%\@endpefalse%
+\par%
+}
+
+
+%원래의 증명 환경을 재현하려는 시도
+\renewcommand{\proofname}{\color{MainColorOne}{\bfseries\sffamily Proof}}
+\newcommand{\qedblack}{\hfill ■} % QED 마크 변경
+
+\newenvironment{Proof}[1][\empty]{%
+\par%
+  \pushQED{\qedblack} % \qedhere 쓰기 위한 장치 ①. from amsthm.sty
+\begin{description}
+\ifx#1\empty
+\item[\bfseries Proof]
+\else
+\item[\bfseries Proof ({\small#1})] \quad
+\fi
+}{\popQED  % \qedhere 쓰기 위한 장치 ②
+\end{description}%
+%\@endpefalse%
+\par%
+}
+
+% \textsc
+%정의 환경을 만드려는 시도
+
+\newenvironment{Def}[1][\empty]{%
+    \begin{framed}
+    \ifx\empty#1
+    \noindent{\bfseries\sffamily 정의 }\quad % 정리의 카운터를 이어서 사용
+    \else
+    \noindent{\bfseries\sffamily 정의 \enskip ({\small#1})}\quad 
+    \fi
+}{%
+    \end{framed}
+}
+
+
+%\colorlet{shadecolor}{MainColorOne!20}
+%\newenvironment{Def}[1][\empty]{%
+%    \begin{snugshade}
+%    \ifx\empty#1
+%    \noindent{\bfseries\sffamily 정의 }\quad % 정리의 카운터를 이어서 사용
+%    \else
+%    \noindent{\bfseries\sffamily 정의 \enskip ({\small#1})}\quad 
+%    \fi
+%}{%
+%    \end{snugshade}
+%}
+
+\makeatother
+
+
+
+%여기부턴 내가 그냥 추가한 환경들
+%theorems ; theorem에 글자를 기울이지 않기 위해 definition환경에 Theorem 환경을 추가하였다. Lem도 마찬가지. %% cor는 progress의 환경과의 충돌을 피해 주석처리.
+
+%%% ams 패키지에 포함된 환경류들을 적절히 편집함.
+%%%환경류 : Theorem, Lem, Cor, prop, conjecture는 영어로 표시되는 환경으로 번호는 thm을 따름. (모두 글자를 바로 세우기 위해 definition스타일로 정의함.) 대소문자 구분에 유의!
+%% defn, Prob는 번호를 붙이지 않은 영어로 표시되는 환경이고 물론 definition스타일.
+%% excs는 연습문제로 definition스타일이지만 번호만 매겨진다.
+%% rem, exmap, aside 는 remark 스타일이고, 이 중 rem과 aside는 번호가 붙지 않는다.
+
+%\newtheorem{theorem}[thm]{Theorem}
+%\newtheorem{lem}[theorem]{Lemma}
+%\newtheorem{cor}[theorem]{Corollary} 
+\theoremstyle{definition}
+%\newtheorem{prop}[theorem]{Proposition}
+%\newtheorem*{defn}{Definition}
+%\newtheorem{Theorem}[thm]{Theorem}
+%\newtheorem*{Prob}{Problem}
+%\newtheorem{Lem}[thm]{Lemma}
+%\newtheorem{Cor}[thm]{Corollary} 
+%\newtheorem{prop}[thm]{Proposition}
+%\newtheorem{conjecture}[thm]{Conjecture}
+\newtheorem{excs}{}
+\newtheorem{excs*}[excs]{}
+%\newtheorem{example}{Example}
+
+
+
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+%\newtheorem{examp}{Example}
+%\newtheorem*{aside}{Aside}
+
+\newcounter{examp} % 새 카운터를 만들고
+\setcounter{examp}{0} % 0으로 초기화
+
+
+
+\counterwithin{examp}{section}
+\renewcommand{\theexamp}{\arabic{examp}}
+
+\newenvironment{examp}[1][\empty]{% 옵션 변수 하나를 받을 예정
+\refstepcounter{examp} % 이게 있어야 번호가 순차적으로 늘어나며 \label과 \ref 가능
+\par%
+\begin{description}
+  \ifx#1\empty
+  \item[\bfseries\sffamily 보기 \theexamp.] 
+  \else
+  \item[\bfseries\sffamily 보기 \theexamp.\enskip ({\small#1})] % 정리 [ ] 안에 있는 부가 설명을 괄호 ( ) 안에 표시
+  \fi
+}{
+\end{description}
+%\@endpefalse%
+\par%
+}
+
+
+
+
